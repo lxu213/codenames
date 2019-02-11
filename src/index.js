@@ -3,25 +3,28 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 // https://reactjs.org/docs/create-a-new-react-app.html#create-react-app
-// TODO: handleSubmit, change css on click
-
+// TODO: one turn may include multiple clicks
 
 const CODENAMELIST = ['Hollywood','Well','Foot','New','York','Spring','Court','Tube','Point','Tablet','Slip','Date','Drill','Lemon','Bell','Screen','Fair','Torch','State','Match','Iron','Block','France','Australia','Limousine','Stream','Glove','Nurse','Leprechaun','Play','Tooth','Arm','Bermuda','Diamond','Whale','Comic','Mammoth','Green','Pass','Missile','Paste','Drop','Pheonix','Marble','Staff','Figure','Park','Centaur','Shadow','Fish','Cotton','Egypt','Theater','Scale','Fall','Track','Force','Dinosaur','Bill','Mine','Turkey','March','Contract','Bridge','Robin','Line','Plate','Band','Fire','Bank','Boom','Cat','Shot','Suit','Chocolate','Roulette','Mercury','Moon','Net','Lawyer','Satellite','Angel','Spider','Germany','Fork','Pitch','King','Crane','Trip','Dog','Conductor','Part','Bugle','Witch','Ketchup','Press','Spine','Worm','Alps','Bond','Pan','Beijing','Racket','Cross','Seal','Aztec','Maple','Parachute','Hotel','Berry','Soldier','Ray','Post','Greece','Square','Mass','Bat','Wave','Car','Smuggler','England','Crash','Tail','Card','Horn','Capital','Fence','Deck','Buffalo','Microscope','Jet','Duck','Ring','Train','Field','Gold','Tick','Check','Queen','Strike','Kangaroo','Spike','Scientist','Engine','Shakespeare','Wind','Kid','Embassy','Robot','Note','Ground','Draft','Ham','War','Mouse','Center','Chick','China','Bolt','Spot','Piano','Pupil','Plot','Lion','Police','Head','Litter','Concert','Mug','Vacuum','Atlantis','Straw','Switch','Skyscraper','Laser','Scuba','Diver','Africa','Plastic','Dwarf','Lap','Life','Honey','Horseshoe','Unicorn','Spy','Pants','Wall','Paper','Sound','Ice','Tag','Web','Fan','Orange','Temple','Canada','Scorpion','Undertaker','Mail','Europe','Soul','Apple','Pole','Tap','Mouth','Ambulance','Dress','Ice','Cream','Rabbit','Buck','Agent','Sock','Nut','Boot','Ghost','Oil','Superhero','Code','Kiwi','Hospital','Saturn','Film','Button','Snowman','Helicopter','Loch','Ness','Log','Princess','Time','Cook','Revolution','Shoe','Mole','Spell','Grass','Washer','Game','Beat','Hole','Horse','Pirate','Link','Dance','Fly','Pit','Server','School','Lock','Brush','Pool','Star','Jam','Organ','Berlin','Face','Luck','Amazon','Cast','Gas','Club','Sink','Water','Chair','Shark','Jupiter','Copper','Jack','Platypus','Stick','Olive','Grace','Bear','Glass','Row','Pistol','London','Rock','Van','Vet','Beach','Charge','Port','Disease','Palm','Moscow','Pin','Washington','Pyramid','Opera','Casino','Pilot','String','Night','Chest','Yard','Teacher','Pumpkin','Thief','Bark','Bug','Mint','Cycle','Telescope','Calf','Air','Box','Mount','Thumb','Antarctica','Trunk','Snow','Penguin','Root','Bar','File','Hawk','Battery','Compound','Slug','Octopus','Whip','America','Ivory','Pound','Sub','Cliff','Lab','Eagle','Genius','Ship','Dice','Hood','Heart','Novel','Pipe','Himalayas','Crown','Round','India','Needle','Shop','Watch','Lead','Tie','Table','Cell','Cover','Czech','Back','Bomb','Ruler','Forest','Bottle','Space','Hook','Doctor','Ball','Bow','Degree','Rome','Plane','Giant','Nail','Dragon','Stadium','Flute','Carrot','Wake','Fighter','Model','Tokyo','Eye','Mexico','Hand','Swing','Key','Alien','Tower','Poison','Cricket','Cold','Knife','Church','Board','Cloak','Ninja','Olympus','Belt','Light','Death','Stock','Millionaire','Day','Knight','Pie','Bed','Circle','Rose','Change','Cap','Triangle'];
 const WORDTYPES = ['red','red','red','red','red','red','red','red','red','blue','blue','blue','blue','blue','blue','blue','blue', 'bystander','bystander','bystander','bystander','bystander','bystander','bystander', 'assassin'];
+const INITIALCLASSNAMES = ['card','card','card','card','card','card','card','card','card','card','card','card','card','card','card','card','card','card','card','card','card','card','card','card','card']
 
 function Card(props) {
   return (
-    // className={props.cardType}
-    <button className="card" onClick={props.onClick}>
-      {props.word} 
+    <button 
+      className={props.cardTypes} 
+      onClick={props.onClick}>
+        {props.word}
     </button>
   );
 }
 
 function Clue(props) {
   return (
-    <div className="clue" onSubmit={props.onSubmit}>
-      Current Clue: {props.clue}
+    <div 
+      className="clue" 
+      onSubmit={props.onSubmit}>
+        Clue: {props.clue.toUpperCase()}
     </div>
   );
 }
@@ -30,15 +33,14 @@ class Board extends React.Component {
   renderCard(i) {
     return (
       <Card 
-        word={this.props.cards[i]}
+        word={this.props.cards[i].toUpperCase()}
+        cardTypes={this.props.cardTypes[i]}
         onClick={() => this.props.onClick(i)}
       />
     );
   }
 
   render() {
-    console.log('rendering board...')
-
     return (
       <div>
         <div className="board-row">
@@ -87,58 +89,74 @@ class Game extends React.Component {
     this.state = {
       title: 'Codenames',
       cards: initializeCardWords(),
-      cardTypes: initializeCardTypes(),
-      clue: 'coconut',
+      initCardTypes: initializeCardTypes(),
+      cardTypes: INITIALCLASSNAMES,
+      clue: '',
       isRedTurn: false,
-      isClueTurn: false
+      isClueTurn: true,
     };
   }
 
-  // toggle red/blue and clue/guess on Clicks, update card state
+  // toggle red/blue and clue/guess on Clicks
   handleClick(i) {
-    console.log('inside handleClick')
-    // cards[i] = this.state.isCardRed ? "Red" : "Blue";
-    this.state.cards[i] = this.state.cardTypes[i];  // how to not mutate directly?
+    console.log('inside handleClick');
+    this.state.cards[i] = this.state.initCardTypes[i];        // set card word to cardType, e.g., 'blue'
+    this.state.cardTypes[i] = this.state.initCardTypes[i];    // set clickedCardType to cardType to switch css class
     this.setState({
       cards: this.state.cards,
+      cardTypes: this.state.cardTypes,
       isRedTurn: !this.state.isRedTurn,
       isClueTurn: !this.state.isClueTurn,
     });
+    console.log('isRedTurn --->');
+    console.log(this.state.isRedTurn);
+    console.log('isClueTurn --->');
+    console.log(this.state.isClueTurn);
   }
 
   // toggle only clue/guess on Change
   handleSubmit(e) { 
-    // is restarting the entire Game
-    console.log('*********** inside handleSubmit *****************');
-    e.preventDefault();  // prevent refresh of game on each submit
+    e.preventDefault();     // prevent refresh of game on each submit
     this.setState({
+      inputClue: '',    
       clue: e.target[0].value,
-      // clue: e.target[0].value
       isClueTurn: !this.state.isClueTurn,
     });
+    e.target[0].value = ""  // clear input box after setting state with clue
+    console.log('isRedTurn --->');
+    console.log(this.state.isRedTurn);
+    console.log('isClueTurn --->');
+    console.log(this.state.isClueTurn);
   }
 
   render() {
-    console.log('rendering game...')
     return (
       <div className="game">
         <div className="game-board">
             <Board 
               cards={this.state.cards}
               cardTypes={this.state.cardTypes}
-              onClick={i => this.handleClick(i)} 
+              onClick={i => this.handleClick(i)}
             />
         </div>
 
         <div className="game-info">
           <div>{ this.state.title }</div>
-          <div className="clue-submit">
+          <div className="clue-display">
             <form onSubmit={e => this.handleSubmit(e)}>
               <label>
-                Enter Clue:
-                <input type="text" name="clue" />
+                Enter Clue: 
+                <input 
+                  className="clue-input" 
+                  type="text" 
+                  name="inputClue" 
+                />
               </label>
-              <input type="submit" value="Submit" />
+              <input 
+                className="clue-submit" 
+                type="submit" 
+                value="Submit" 
+              />
             </form>
           </div>
           <div className="clue-display">
@@ -147,6 +165,16 @@ class Game extends React.Component {
               onSubmit={e => this.handleSubmit(e)}
             />
           </div>
+          <div className="clue-display">
+            <div>
+              {this.state.isRedTurn ? 
+                "Red" : 
+                "Blue"}  
+              {this.state.isClueTurn ? 
+                "Spymaster, please enter your clue." : 
+                "Guesser, please click on guesses."}
+            </div>
+          </div>          
         </div>
       </div>
     );
@@ -169,7 +197,7 @@ function initializeCardWords() {
   // dedupe using dict
   while (Object.keys(dict).length < 25) {
     word = CODENAMELIST[Math.floor(Math.random() * CODENAMELIST.length)];
-    dict[word] = 0;
+    dict[word.toUpperCase()] = 0;
   }
 
   return Object.keys(dict);

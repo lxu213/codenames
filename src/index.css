@@ -7,10 +7,55 @@ ol, ul {
   padding-left: 30px;
 }
 
+.title {
+  font-family: 'Courier New', Courier, monospace;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  font-size: 30px;
+  font-weight: bold;
+  border-bottom: 1px solid #eee;
+  padding: 2%;
+}
+
 .game {
-  display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  margin: 0 auto;
+  width: 80%;
+  min-width: 850px;
+  text-align: center;
+}
+
+.info {
+  justify-content: end;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  text-align: left;
+  padding-left: 0px;
+}
+
+.red-turn {
+  color: red;
+}
+
+.blue-turn {
+  color: blue;
+}
+
+.turn {
+  text-align: center;
+  margin: auto;
+}
+
+.scoreboard {
+  margin-left: 5px;
+  margin: auto;
+  padding-left: 20px;
+}
+
+.end-btn {
+  text-align: right;
+  margin-right: 20px;
 }
 
 .game-info {
@@ -19,14 +64,8 @@ ol, ul {
   font-weight: bold;
   line-height: 70px;
   padding-top: 40px;
-  text-align: center;
   width: 50%;
   min-width: 850;
-}
-
-.game-board {
-  width: 50%;
-  min-width: 850px;
 }
 
 .clue-display {
@@ -55,79 +94,116 @@ ol, ul {
   margin-bottom: 10px;
 }
 
-.card {
-  background: #fff;
-  border: 1px solid #999;
+.hidden-card {
+  background: #e8e8e8;
+  border: none;
+  border-radius: 5px;
+  display: block;
   float: left;
-  font-size: 20px;
-  font-weight: bold;
   line-height: 70px;
-  height: 70px;
-  margin-right: 10px;
-  margin-top: 10px;
-  padding: 0;
-  text-align: center;
+  height: 80px;
+  margin: 5px;
   width: 160px;
 }
 
 .red {
-  background: #D1816E;
-  border: 1px solid #999;
+  background: #d13030;
+  border-radius: 5px;
+  border: #d13030;
+  color: white;
   float: left;
-  font-size: 20px;
-  font-weight: bold;
-  line-height: 70px;
-  height: 70px;
-  margin-right: 10px;
-  margin-top: 10px;
-  padding: 0;
-  text-align: center;
+  height: 80px;
+  margin: 5px;
   width: 160px;
 }
 
 .blue {
-  background: #6580E5;
-  border: 1px solid #999;
+  background: #4183cc;
+  border-radius: 5px;
+  border: #4183cc;
+  color: white;
   float: left;
-  font-size: 20px;
-  font-weight: bold;
-  line-height: 70px;
-  height: 70px;
-  margin-right: 10px;
-  margin-top: 10px;
-  padding: 0;
-  text-align: center;
+  height: 80px;
+  margin: 5px;
   width: 160px;
 }
 
 .bystander {
   background: #EAE1AC;
-  border: 1px solid #999;
+  border-radius: 5px;
+  border: #EAE1AC;
   float: left;
-  font-size: 20px;
-  font-weight: bold;
-  line-height: 70px;
-  height: 70px;
-  margin-right: 10px;
-  margin-top: 10px;
-  padding: 0;
-  text-align: center;
+  height: 80px;
+  margin: 5px;
   width: 160px;
 }
 
 .assassin {
-  background: #fff;
-  border: 10px solid black;
+  border: 5px solid black;  
+  border-radius: 5px;
   float: left;
-  font-size: 20px;
-  font-weight: bold;
-  line-height: 70px;
-  height: 70px;
-  margin-right: 10px;
-  margin-top: 10px;
-  padding: 0;
-  text-align: center;
+  height: 80px;
+  margin: 5px;
   width: 160px;
+}
+
+
+.spymaster-red {
+  color: #d13030;
+  font-weight: bold;
+  border-radius: 5px;
+  border: #d13030;
+  float: left;
+  height: 80px;
+  margin: 5px;
+  width: 160px;
+}
+
+.spymaster-blue {
+  color: #4183cc;
+  font-weight: bold;
+  border-radius: 5px;
+  border: #4183cc;
+  float: left;
+  height: 80px;
+  margin: 5px;
+  width: 160px;
+}
+
+.spymaster-bystander {
+  font-weight: bold;
+  border-radius: 5px;
+  border: #EAE1AC;
+  float: left;
+  height: 80px;
+  margin: 5px;
+  width: 160px;
+}
+
+.spymaster-assassin {
+  background: #ccc;
+  border: #ccc;
+  font-weight: bold;
+  border-radius: 5px;
+  float: left;
+  height: 80px;
+  margin: 5px;
+  width: 160px;
+}
+
+.game-over {
+  font-size: 26px;
+}
+
+.btn-info {
+  border: 1px solid #ddd;
+  font-size: 12px;
+  padding: 8px;
+  line-height: 1;
+}
+
+.new-game {
+  margin-left: 10px;
 }
 
 .card:focus {

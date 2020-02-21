@@ -21,7 +21,7 @@ ol, ul {
   flex-wrap: wrap;
   flex-direction: row;
   margin: 0 auto;
-  width: 80%;
+  width: min-content;
   min-width: 850px;
   text-align: center;
 }
@@ -32,6 +32,7 @@ ol, ul {
   padding-bottom: 3%;
   text-align: left;
   padding-left: 0px;
+  padding-right: 0px;
 }
 
 .red-turn {
@@ -192,7 +193,17 @@ ol, ul {
 }
 
 .game-over {
-  font-size: 26px;
+  text-align: right;
+}
+
+.game-over-red {
+  color: #d13030;
+  text-align: right;
+}
+
+.game-over-blue {
+  color: #4183cc;
+  text-align: right;
 }
 
 .btn-info {
@@ -202,8 +213,19 @@ ol, ul {
   line-height: 1;
 }
 
+.gray-click {
+  color: #999;
+  cursor: auto;
+  pointer-events: none;
+}
+
 .new-game {
   margin-left: 10px;
+}
+
+.gear {
+  margin-right: 5px;
+  cursor: pointer;
 }
 
 .card:focus {

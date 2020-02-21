@@ -158,11 +158,11 @@ class Game extends React.Component {
     }
 
     // update red or blue team's score
-    if (this.state.isRedTurn === true && this.state.cardColor[i] === 'red') {
+    if (this.state.cardColor[i] === 'red') {
       this.setState({
         redRemaining: this.state.redRemaining - 1,
       })
-    } else if (this.state.isRedTurn === false && this.state.cardColor[i] === 'blue') {
+    } else if (this.state.cardColor[i] === 'blue') {
       this.setState({
         blueRemaining: this.state.blueRemaining - 1,
       })    

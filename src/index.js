@@ -125,7 +125,15 @@ class Game extends React.Component {
       return null // disable clicking 
     }
     this.updateScore(i);
+
+
     this.state.cardClass[i] = this.state.cardColor[i]; // switch css classNames
+
+    this.setState({ cardClass: this.state.cardColor[i] }); // switch css classNames
+
+    this.setState({ cardClass: this.state.cardColor[i] }, () => {
+      doSomething();
+    }); // switch css classNames
 
     if (this.state.cardColor[i] === 'bystander' ||
        (this.state.isRedTurn === true && this.state.cardColor[i] === 'blue') ||

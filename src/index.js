@@ -202,7 +202,7 @@ class Game extends React.Component {
     // when clicked, all text should bold and 'status' is used as font-color
   }
 
-  handleAgentClick(i) {
+  handleAgentClick() {
     this.setState({
       cardClass: HIDDEN_CLASSNAMES,
       view: 'agent',
@@ -280,7 +280,7 @@ class Game extends React.Component {
           <div className="btn-group btn-group-toggle" data-toggle="buttons">
             <label
               className={"btn btn-info btn-light " + agentView} 
-              onClick={i => this.handleAgentClick(i)}>
+              onClick={() => this.handleAgentClick()}>
                 Agent
             </label>
             <label 

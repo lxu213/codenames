@@ -185,7 +185,7 @@ class Game extends React.Component {
     })
   }
 
-  handleSpymasterClick(i) {
+  handleSpymasterClick = () => {
     // do not map cards that aren't "hiddencard" for class
     const spymasterCardNames = this.state.cardClass.map((card, i) => {
       if (card === 'hidden-card') {
@@ -285,7 +285,7 @@ class Game extends React.Component {
             </label>
             <label 
               className={"btn btn-info btn-light " + spyView}
-              onClick={i => this.handleSpymasterClick(i)}>
+              onClick={this.handleSpymasterClick}>
                 Spymasters
             </label>
           </div>

@@ -102,8 +102,13 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
+
+  handleGearClick;
+
   constructor(props) {
     super(props);
+    this.handleGearClick = this.handleGearClickFunction.bind(this);
+
     this.state = {
       cardWords: initializeCardWords(),
       cardColor: initializeCardRevealed(),    // css class: hidden-card, red, blue
@@ -210,7 +215,7 @@ class Game extends React.Component {
     // when clicked, all text should bold and 'status' is used as font-color
   }
 
-  handleGearClick(i) {
+  handleGearClickFunction(i) {
     alert('How to play codenames: https://www.youtube.com/watch?v=zQVHkl8oQEU');
   }
 
@@ -275,7 +280,7 @@ class Game extends React.Component {
 
         <div className="info row col-12">
           <Gear
-            onClick={i => this.handleGearClick(i)}
+            onClick={this.handleGearClick}
           />
           <div className="btn-group btn-group-toggle" data-toggle="buttons">
             <label

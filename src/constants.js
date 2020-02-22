@@ -4,3 +4,5 @@ export const REVEALED_CLASSNAMES = {
     bystander: 'bystander',
     assassin: 'assassin',
 };
+
+export const BASE_TURNS = 8;

@@ -8,6 +8,10 @@ const CODENAMELIST = ['Hollywood','Well','Foot','New','York','Spring','Court','T
 const REVEALED_CLASSNAMES = ['red','red','red','red','red','red','red','red','red','blue','blue','blue','blue','blue','blue','blue','blue', 'bystander','bystander','bystander','bystander','bystander','bystander','bystander', 'assassin'];
 const HIDDEN_CLASSNAMES = new Array(25).fill('hidden-card');
 
+const ROWS = 5;
+const COLUMNS = 5;
+
+
 function Card(props) {
   return (
     <button 
@@ -58,44 +62,30 @@ class Board extends React.Component {
     );
   }
 
+  renderColumns(rowPosition) {
+      const columns = [];
+      for (let columnPosition=0; columnPosition < (COLUMNS); columnPosition++) {
+          columns.push(this.renderCard(columnPosition + rowPosition * ROWS))
+      }
+      return columns
+  }
+
+  renderRows() {
+      const rows = [];
+      for (let rowPosition=0; rowPosition < (ROWS); rowPosition++) {
+          rows.push(
+              <div className="board-row">
+                  {this.renderColumns(rowPosition)}
+              </div>
+          )
+      }
+      return rows;
+  }
+
   render() {
     return (
       <div>
-        <div className="board-row">
-          {this.renderCard(0)}
-          {this.renderCard(1)}
-          {this.renderCard(2)}
-          {this.renderCard(3)}
-          {this.renderCard(4)}
-        </div>
-        <div className="board-row">
-          {this.renderCard(5)}
-          {this.renderCard(6)}
-          {this.renderCard(7)}
-          {this.renderCard(8)}
-          {this.renderCard(9)}
-        </div>
-        <div className="board-row">
-          {this.renderCard(10)}
-          {this.renderCard(11)}
-          {this.renderCard(12)}
-          {this.renderCard(13)}
-          {this.renderCard(14)}
-        </div>
-        <div className="board-row">
-          {this.renderCard(15)}
-          {this.renderCard(16)}
-          {this.renderCard(17)}
-          {this.renderCard(18)}
-          {this.renderCard(19)}
-        </div>
-        <div className="board-row">
-          {this.renderCard(20)}
-          {this.renderCard(21)}
-          {this.renderCard(22)}
-          {this.renderCard(23)}
-          {this.renderCard(24)}
-        </div>
+          {this.renderRows()}
       </div>
     );
   }

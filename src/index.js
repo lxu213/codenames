@@ -82,7 +82,6 @@ class Board extends React.Component {
               </div>
           )
       }
-      return rows;
   }
 
   render() {
@@ -95,8 +94,13 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
+
+  handleGearClick;
+
   constructor(props) {
     super(props);
+    this.handleGearClick = this.handleGearClickFunction.bind(this);
+
     const secondPlayer = pickRandomPlayer();
     this.state = {
       cardWords: initializeCardWords(),
@@ -179,7 +183,7 @@ class Game extends React.Component {
     })
   }
 
-  handleSpymasterClick(i) {
+  handleSpymasterClick = () => {
     // do not map cards that aren't "hiddencard" for class
     const spymasterCardNames = this.state.cardClass.map((card, i) => {
       if (card === 'hidden-card') {
@@ -196,7 +200,7 @@ class Game extends React.Component {
     // when clicked, all text should bold and 'status' is used as font-color
   }
 
-  handleAgentClick(i) {
+  handleAgentClick() {
     this.setState({
       cardClass: HIDDEN_CLASSNAMES,
       view: 'agent',
@@ -204,7 +208,7 @@ class Game extends React.Component {
     // when clicked, all text should bold and 'status' is used as font-color
   }
 
-  handleGearClick(i) {
+  handleGearClickFunction(i) {
     alert('How to play codenames: https://www.youtube.com/watch?v=zQVHkl8oQEU');
   }
 
@@ -269,17 +273,17 @@ class Game extends React.Component {
 
         <div className="info row col-12">
           <Gear
-            onClick={i => this.handleGearClick(i)}
+            onClick={this.handleGearClick}
           />
           <div className="btn-group btn-group-toggle" data-toggle="buttons">
             <label
               className={"btn btn-info btn-light " + agentView} 
-              onClick={i => this.handleAgentClick(i)}>
+              onClick={() => this.handleAgentClick()}>
                 Agent
             </label>
             <label 
               className={"btn btn-info btn-light " + spyView}
-              onClick={i => this.handleSpymasterClick(i)}>
+              onClick={this.handleSpymasterClick}>
                 Spymasters
             </label>
           </div>

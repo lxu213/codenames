@@ -25,23 +25,6 @@ function Card(props) {
   );
 }
 
-function EndTurn(props) {
-  if (props.endTurn) { // game is active
-    return (
-      <button
-        className="btn btn-info btn-light"
-        onClick={props.onClick}>
-          End Turn
-      </button>
-    )
-  } else { // game over 
-    const message = (props.winner).toUpperCase() + " TEAM WINS!"
-    return (
-      <div className={"turn col " + props.status}>{message}</div>
-    )
-  }
-}
-
 function Gear(props) {
   return (
     <div
@@ -184,7 +167,7 @@ class Game extends React.Component {
     }
   }
 
-  handleEndTurnClick(i) {
+  handleEndTurnClick = () => {
     this.setState({
       isRedTurn: !this.state.isRedTurn,
       status: !this.state.isRedTurn ? 'red-turn' : 'blue-turn',
@@ -237,6 +220,23 @@ class Game extends React.Component {
     e.target[0].value = ""  
   }
 
+  renderEndTurn() {
+    return (
+        <button
+            className="btn btn-info btn-light"
+            onClick={this.handleEndTurnClick}>
+          End Turn
+        </button>
+    )
+  }
+
+  renderShowWinner() {
+    const message = (this.state.winner).toUpperCase() + " TEAM WINS!";
+    return (
+        <div className={"turn col " + this.state.status}>{message}</div>
+    )
+  }
+
   render() {
     let statusMessage;
     if (this.state.status.includes('-turn')) {
@@ -264,13 +264,10 @@ class Game extends React.Component {
             <span className="red-turn">{this.state.redRemaining}</span>
           </div>
           <div className={"turn col " + this.state.status}>{statusMessage}</div>
-          <EndTurn
-            onClick={i => this.handleEndTurnClick(i)}
-            endTurn={this.state.showEndTurn}
-            status={this.state.status}
-            isRedTurn={this.state.isRedTurn}
-            winner={this.state.winner}
-          />
+          {this.state.showEndTurn ?
+              this.renderEndTurn()
+              : this.renderShowWinner()
+          }
         </div>
 
         <Board 

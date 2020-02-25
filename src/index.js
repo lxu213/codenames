@@ -115,6 +115,10 @@ class Game extends React.Component {
       return null // disable clicking 
     }
     this.updateScore(i);
+    // TODO: Do not mutate state directly
+    // this.setState({
+    //   cardClass: this.update(this.state.cardClass, {i: {$set: this.state.cardColor[i]}})
+    // })
     this.state.cardClass[i] = this.state.cardColor[i]; // switch css classNames
 
     if (this.state.cardColor[i] === 'bystander' ||

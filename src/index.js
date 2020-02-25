@@ -2,7 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { REVEALED_CLASSNAMES } from './constants';
+import { REVEALED_CLASSNAMES, BASE_TURNS } from './constants';
+import { pickRandomPlayer, initializeCardRevealed } from './util_functions';
 
 const CODENAMELIST = ['Hollywood','Well','Foot','New','York','Spring','Court','Tube','Point','Tablet','Slip','Date','Drill','Lemon','Bell','Screen','Fair','Torch','State','Match','Iron','Block','France','Australia','Limousine','Stream','Glove','Nurse','Leprechaun','Play','Tooth','Arm','Bermuda','Diamond','Whale','Comic','Mammoth','Green','Pass','Missile','Paste','Drop','Pheonix','Marble','Staff','Figure','Park','Centaur','Shadow','Fish','Cotton','Egypt','Theater','Scale','Fall','Track','Force','Dinosaur','Bill','Mine','Turkey','March','Contract','Bridge','Robin','Line','Plate','Band','Fire','Bank','Boom','Cat','Shot','Suit','Chocolate','Roulette','Mercury','Moon','Net','Lawyer','Satellite','Angel','Spider','Germany','Fork','Pitch','King','Crane','Trip','Dog','Conductor','Part','Bugle','Witch','Ketchup','Press','Spine','Worm','Alps','Bond','Pan','Beijing','Racket','Cross','Seal','Aztec','Maple','Parachute','Hotel','Berry','Soldier','Ray','Post','Greece','Square','Mass','Bat','Wave','Car','Smuggler','England','Crash','Tail','Card','Horn','Capital','Fence','Deck','Buffalo','Microscope','Jet','Duck','Ring','Train','Field','Gold','Tick','Check','Queen','Strike','Kangaroo','Spike','Scientist','Engine','Shakespeare','Wind','Kid','Embassy','Robot','Note','Ground','Draft','Ham','War','Mouse','Center','Chick','China','Bolt','Spot','Piano','Pupil','Plot','Lion','Police','Head','Litter','Concert','Mug','Vacuum','Atlantis','Straw','Switch','Skyscraper','Laser','Scuba','Diver','Africa','Plastic','Dwarf','Lap','Life','Honey','Horseshoe','Unicorn','Spy','Pants','Wall','Paper','Sound','Ice','Tag','Web','Fan','Orange','Temple','Canada','Scorpion','Undertaker','Mail','Europe','Soul','Apple','Pole','Tap','Mouth','Ambulance','Dress','Ice','Cream','Rabbit','Buck','Agent','Sock','Nut','Boot','Ghost','Oil','Superhero','Code','Kiwi','Hospital','Saturn','Film','Button','Snowman','Helicopter','Loch','Ness','Log','Princess','Time','Cook','Revolution','Shoe','Mole','Spell','Grass','Washer','Game','Beat','Hole','Horse','Pirate','Link','Dance','Fly','Pit','Server','School','Lock','Brush','Pool','Star','Jam','Organ','Berlin','Face','Luck','Amazon','Cast','Gas','Club','Sink','Water','Chair','Shark','Jupiter','Copper','Jack','Platypus','Stick','Olive','Grace','Bear','Glass','Row','Pistol','London','Rock','Van','Vet','Beach','Charge','Port','Disease','Palm','Moscow','Pin','Washington','Pyramid','Opera','Casino','Pilot','String','Night','Chest','Yard','Teacher','Pumpkin','Thief','Bark','Bug','Mint','Cycle','Telescope','Calf','Air','Box','Mount','Thumb','Antarctica','Trunk','Snow','Penguin','Root','Bar','File','Hawk','Battery','Compound','Slug','Octopus','Whip','America','Ivory','Pound','Sub','Cliff','Lab','Eagle','Genius','Ship','Dice','Hood','Heart','Novel','Pipe','Himalayas','Crown','Round','India','Needle','Shop','Watch','Lead','Tie','Table','Cell','Cover','Czech','Back','Bomb','Ruler','Forest','Bottle','Space','Hook','Doctor','Ball','Bow','Degree','Rome','Plane','Giant','Nail','Dragon','Stadium','Flute','Carrot','Wake','Fighter','Model','Tokyo','Eye','Mexico','Hand','Swing','Key','Alien','Tower','Poison','Cricket','Cold','Knife','Church','Board','Cloak','Ninja','Olympus','Belt','Light','Death','Stock','Millionaire','Day','Knight','Pie','Bed','Circle','Rose','Change','Cap','Triangle'];
 const HIDDEN_CLASSNAMES = new Array(25).fill('hidden-card');
@@ -92,16 +93,17 @@ class Board extends React.Component {
 class Game extends React.Component {
   constructor(props) {
     super(props);
+    const secondPlayer = pickRandomPlayer();
     this.state = {
       cardWords: initializeCardWords(),
-      cardColor: initializeCardRevealed(),    // css class: hidden-card, red, blue
+      cardColor: initializeCardRevealed(secondPlayer),    // css class: hidden-card, red, blue
       cardClass: HIDDEN_CLASSNAMES,           // initial classNames are 'hidden-card'
       clue: '',
-      isRedTurn: false,
+      isRedTurn: secondPlayer === REVEALED_CLASSNAMES.blue,
       isClueTurn: true,
-      status: 'blue-turn',
-      blueRemaining: 8,
-      redRemaining: 9,
+      status: secondPlayer === REVEALED_CLASSNAMES.blue ? 'red-turn' : 'blue-turn',
+      blueRemaining: secondPlayer === REVEALED_CLASSNAMES.blue ? BASE_TURNS + 1 : BASE_TURNS,
+      redRemaining: secondPlayer === REVEALED_CLASSNAMES.RED ? BASE_TURNS + 1 : BASE_TURNS,
       showEndTurn: true,
       view: 'agent',
       winner: '',
@@ -310,50 +312,3 @@ function initializeCardWords() {
   return Object.keys(dict);
 }
 
-
-function initializeCardRevealed() {
-  // Returns a list of 25 unique word types
-  // Index indicates hidden-card position on board
-
-  const RED = 9;
-  const BLUE = 8;
-  const BYSTANDER = 7;
-  const ASSASSIN = 1;
-
-  const revealedClassnames = [];
-
-  for (let i=0; i < (RED); i++) {
-      revealedClassnames.push(REVEALED_CLASSNAMES.red)
-  }
-  for (let i=0; i < (BLUE); i++) {
-      revealedClassnames.push(REVEALED_CLASSNAMES.blue)
-  }
-  for (let i=0; i < (BYSTANDER); i++) {
-      revealedClassnames.push(REVEALED_CLASSNAMES.bystander)
-  }
-  for (let i=0; i < (ASSASSIN); i++) {
-      revealedClassnames.push(REVEALED_CLASSNAMES.assassin)
-  }
-
-  return shuffle(revealedClassnames);
-}
-
-
-function shuffle(array) {
-  // Fisher-Yates Shuffle
-  var currentIndex = array.length, temporaryValue, randomIndex;
-
-  while (0 !== currentIndex) { // while there are elements to shuffle
-
-    // pick a remaining element
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-
-    // and swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
-}

@@ -110,7 +110,7 @@ class Game extends React.Component {
     };
   }
 
-  handleCardClick(i) {
+  handleCardClick = (i) => {
     if (this.state.status.includes('game-over') || this.state.view === 'spymaster') {
       return null // disable clicking 
     }
@@ -168,14 +168,14 @@ class Game extends React.Component {
     }
   }
 
-  handleEndTurnClick(i) {
+  handleEndTurnClick = () => {
     this.setState({
       isRedTurn: !this.state.isRedTurn,
       status: !this.state.isRedTurn ? 'red-turn' : 'blue-turn',
     })
   }
 
-  handleSpymasterClick(i) {
+  handleSpymasterClick = () => {
     // do not map cards that aren't "hiddencard" for class
     const spymasterCardNames = this.state.cardClass.map((card, i) => {
       if (card === 'hidden-card') {
@@ -192,7 +192,7 @@ class Game extends React.Component {
     // when clicked, all text should bold and 'status' is used as font-color
   }
 
-  handleAgentClick(i) {
+  handleAgentClick = () => {
     this.setState({
       cardClass: HIDDEN_CLASSNAMES,
       view: 'agent',
@@ -200,7 +200,7 @@ class Game extends React.Component {
     // when clicked, all text should bold and 'status' is used as font-color
   }
 
-  handleGearClick(i) {
+  handleGearClick = () => {
     alert('How to play codenames: https://www.youtube.com/watch?v=zQVHkl8oQEU');
   }
 
@@ -249,7 +249,7 @@ class Game extends React.Component {
           </div>
           <div className={"turn col " + this.state.status}>{statusMessage}</div>
           <EndTurn
-            onClick={i => this.handleEndTurnClick(i)}
+            onClick={this.handleEndTurnClick}
             endTurn={this.state.showEndTurn}
             status={this.state.status}
             isRedTurn={this.state.isRedTurn}
@@ -260,22 +260,22 @@ class Game extends React.Component {
         <Board 
           cardWords={this.state.cardWords}
           cardClass={this.state.cardClass}
-          onClick={i => this.handleCardClick(i)}
+          onClick={this.handleCardClick}
         />
 
         <div className="info row col-12">
           <Gear
-            onClick={i => this.handleGearClick(i)}
+            onClick={this.handleGearClick}
           />
           <div className="btn-group btn-group-toggle" data-toggle="buttons">
             <label
               className={"btn btn-info btn-light " + agentView} 
-              onClick={i => this.handleAgentClick(i)}>
+              onClick={this.handleAgentClick}>
                 Agent
             </label>
             <label 
               className={"btn btn-info btn-light " + spyView}
-              onClick={i => this.handleSpymasterClick(i)}>
+              onClick={this.handleSpymasterClick}>
                 Spymasters
             </label>
           </div>

@@ -1,8 +1,8 @@
-import { REVEALED_CLASSNAMES, BASE_TURNS } from './constants';
+import { REVEALED_CLASSNAMES, BASE_TURNS, BYSTANDERS, ASSASSINS } from './constants';
 
 export function pickRandomPlayer() {
     const number = Math.floor((Math.random() * 100) + 1);
-    if (number%2 === 0) {
+    if (number % 2 === 0) {
         return REVEALED_CLASSNAMES.red
     } else {
         return REVEALED_CLASSNAMES.blue
@@ -13,22 +13,19 @@ export function initializeCardRevealed(secondPlayer) {
     // Returns a list of 25 unique word types
     // Index indicates hidden-card position on board
   
-    const BYSTANDER = 7;
-    const ASSASSIN = 1;
-  
     const revealedClassnames = [];
 
-    for (let i=0; i < (BASE_TURNS); i++) {
+    for (let i = 0; i < (BASE_TURNS); i++) {
         revealedClassnames.push(REVEALED_CLASSNAMES.red);
         revealedClassnames.push(REVEALED_CLASSNAMES.blue);
     }
 
     revealedClassnames.push(REVEALED_CLASSNAMES[secondPlayer]);
 
-    for (let i=0; i < (BYSTANDER); i++) {
+    for (let i=0; i < (BYSTANDERS); i++) {
         revealedClassnames.push(REVEALED_CLASSNAMES.bystander)
     }
-    for (let i=0; i < (ASSASSIN); i++) {
+    for (let i=0; i < (ASSASSINS); i++) {
         revealedClassnames.push(REVEALED_CLASSNAMES.assassin)
     }
 

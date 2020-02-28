@@ -86,7 +86,7 @@ class Game extends React.Component {
       isClueTurn: true,
       status: secondPlayer === REVEALED_CLASSNAMES.blue ? 'red-turn' : 'blue-turn',
       blueRemaining: secondPlayer === REVEALED_CLASSNAMES.blue ? BASE_TURNS + 1 : BASE_TURNS,
-      redRemaining: secondPlayer === REVEALED_CLASSNAMES.RED ? BASE_TURNS + 1 : BASE_TURNS,
+      redRemaining: secondPlayer === REVEALED_CLASSNAMES.red ? BASE_TURNS + 1 : BASE_TURNS,
       showEndTurn: true,
       view: 'agent',
       winner: '',
@@ -98,6 +98,7 @@ class Game extends React.Component {
       return null // disable clicking 
     }
     this.updateScore(i);
+
     // TODO: Do not mutate state directly
     // this.setState({
     //   cardClass: this.update(this.state.cardClass, {i: {$set: this.state.cardColor[i]}})
@@ -126,6 +127,8 @@ class Game extends React.Component {
       cardClass: this.state.cardClass,
       isClueTurn: !this.state.isClueTurn,
     });
+  
+
   }
 
   updateScore(i) {
@@ -135,17 +138,20 @@ class Game extends React.Component {
     }
 
     // update red or blue team's score
+    // ensure game over is checked only after remaining
     if (this.state.cardColor[i] === 'red') {
       this.setState({
         redRemaining: this.state.redRemaining - 1,
-      })
+      }, function() {this.isGameOver()})
     } else if (this.state.cardColor[i] === 'blue') {
       this.setState({
         blueRemaining: this.state.blueRemaining - 1,
-      })    
+      }, function() {this.isGameOver()})    
     }
-    // check if game is over
-    if (this.state.redRemaining === 1 || this.state.blueRemaining === 1) {
+  }
+  
+  isGameOver = () => {
+    if (this.state.redRemaining === 0 || this.state.blueRemaining === 0) {
       const status = "game-over-" + (this.state.isRedTurn ? 'red' : 'blue');
       this.setState({
         status: status,
